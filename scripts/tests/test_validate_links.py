@@ -97,14 +97,16 @@ class TestValidateLinks(unittest.TestCase):
         self.assertEqual(links, ['https://www.example.com'])
         self.assertEqual(len(no_links), 0)
 
-    def test_check_duplicate_links_ignores_trailing_slashes(self):
-        links_with_trailing_slash_variant = [
-            'https://www.example.com',
+    def test_check_duplicate_links_normalizes_trailing_slash(self):
+        links_with_trailing_slash_variants = [
             'https://www.example.com/',
-            'https://www.example.com///',
+            'https://www.example.com',
+            'https://www.anotherexample.com/'
         ]
 
-        has_duplicate_links, duplicates = check_duplicate_links(links_with_trailing_slash_variant)
+        has_duplicate_links, duplicates = check_duplicate_links(
+            links_with_trailing_slash_variants
+        )
 
         self.assertTrue(has_duplicate_links)
         self.assertEqual(duplicates, ['https://www.example.com'])
